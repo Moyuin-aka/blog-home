@@ -27,7 +27,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const renderServices = async () => {
         const container = document.getElementById('lab-container');
         try {
-            const response = await fetch(`services.json?v=${Date.now()}`);
+            const cacheBuster = Math.floor(Date.now() / (5 * 60 * 1000)); 
+            const response = await fetch(`services.json?v=${cacheBuster}`);
             const data = await response.json();
             const services = data.services || [];
 
@@ -136,7 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
         .use(window.i18nextBrowserLanguageDetector)
         .init({
             fallbackLng: 'en',
-            load: 'languageOnly', // Add this line
+            load: 'languageOnly', 
             debug: false,
             backend: { loadPath: 'locales/{{lng}}.json?v=' + Date.now() },
             detection: { caches: ['cookie', 'localStorage'] },
