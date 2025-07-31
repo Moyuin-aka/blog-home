@@ -237,6 +237,42 @@
         html.dark .theme-toggle {
             color: #b5aed6;
         }
+
+        /* 语言切换按钮样式 */
+        .lang-toggle {
+            position: absolute;
+            top: 24px;
+            right: 100px;
+            cursor: pointer;
+            background: transparent;
+            border: none;
+            outline: none;
+            font-size: 1.6rem;
+            color: var(--purple);
+            transition: color .25s, background .3s;
+            z-index: 10;
+            padding: 4px 7px;
+            border-radius: 50%;
+            box-shadow: 0 1px 8px 0 rgba(162, 89, 236, .05);
+            user-select: none;
+        }
+
+        .lang-icon {
+            display: inline-block;
+            transition: transform .3s;
+        }
+
+        .lang-toggle:hover {
+            background: rgba(162, 89, 236, .10);
+        }
+
+        @media (max-width: 600px) {
+            .lang-toggle {
+                top: 10px;
+                right: 70px;
+                font-size: 1.3rem;
+            }
+        }
     </style>
 </head>
 
@@ -250,28 +286,35 @@
         </span>
     </button>
 
+    <button class="lang-toggle" id="langToggleBtn" title="切换语言" aria-label="切换语言">
+        <span class="lang-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12.87 15.07l-2.54-2.51.03-.03c1.74-1.94 2.98-4.17 3.71-6.53H17V4h-7V2H8v2H1v1.99h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z" fill="currentColor"/>
+            </svg>
+        </span>
+    </button>
 
     <div class="avatar">
         <img src="avatar.jpeg" alt="avatar">
     </div>
-    <div class="nickname">Moyuin</div>
+    <div class="nickname" data-zh="Moyuin" data-en="Moyuin">Moyuin</div>
     <!-- 只贴 .icons 相关部分，完整见下 -->
     <div class="icons">
-        <a href="mailto:me@moyuin.top" title="Email" aria-label="Email">
+        <a href="mailto:me@moyuin.top" data-title-zh="邮箱" data-title-en="Email" title="邮箱" aria-label="邮箱">
             <!-- Email/信封图标 SVG -->
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M4 4H20V20H4V4Z" stroke="currentColor" stroke-width="2" />
                 <path d="M4 4L12 13L20 4" stroke="currentColor" stroke-width="2" />
             </svg>
         </a>
-        <a href="https://github.com/moyuin-aka" title="GitHub" aria-label="GitHub" target="_blank">
+        <a href="https://github.com/moyuin-aka" data-title-zh="GitHub" data-title-en="GitHub" title="GitHub" aria-label="GitHub" target="_blank">
             <!-- GitHub 官方 SVG -->
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"
                     d="M12 .5C5.5.5.5 5.6.5 12.2c0 5.2 3.4 9.6 8.2 11 .6.1.8-.3.8-.6v-2.1c-3.3.7-4-1.4-4-1.4-.5-1.2-1.1-1.5-1.1-1.5-.9-.7.1-.7.1-.7 1 .1 1.5 1 1.5 1 .9 1.6 2.5 1.2 3.1.9.1-.7.4-1.2.7-1.5-2.6-.3-5.4-1.3-5.4-5.8 0-1.3.4-2.3 1.1-3.2-.1-.3-.5-1.6.1-3.4 0 0 .9-.3 3.3 1.2a11 11 0 0 1 6 0c2.4-1.5 3.3-1.2 3.3-1.2.6 1.8.2 3.1.1 3.4.7.9 1.1 2 1.1 3.2 0 4.6-2.8 5.5-5.4 5.8.4.3.7.9.7 1.8v2.7c0 .3.2.7.8.6 4.8-1.4 8.2-5.8 8.2-11C23.5 5.6 18.5.5 12 .5Z" />
             </svg>
         </a>
-        <a href="https://x.com/moyuin1" title="Twitter/X" aria-label="Twitter" target="_blank">
+        <a href="https://x.com/moyuin1" data-title-zh="推特" data-title-en="Twitter/X" title="推特" aria-label="推特" target="_blank">
             <!-- X/Twitter 官方 SVG -->
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path fill="currentColor"
@@ -281,9 +324,9 @@
     </div>
 
     <div class="links">
-        <a href="https://blog.moyuin.top" title="博客">Blog</a> ·
-        <a href="https://notes.moyuin.top" title="笔记">Notes</a> ·
-        <a href="/lab" title="实验室">Lab</a>
+        <a href="https://blog.moyuin.top" data-zh="博客" data-en="Blog" title="博客">博客</a> ·
+        <a href="https://notes.moyuin.top" data-zh="笔记" data-en="Notes" title="笔记">笔记</a> ·
+        <a href="/lab" data-zh="实验室" data-en="Lab" title="实验室">实验室</a>
     </div>
     <script defer src="https://umami.moyuin.top/script.js" data-website-id="06448a1e-4437-4ab7-8f41-ecfd6ba7aace"></script>
     <script>
@@ -337,6 +380,77 @@
         // 初始化
         initTheme();
 
+    </script>
+    <script>
+        // 语言切换功能
+        const langBtn = document.getElementById('langToggleBtn');
+
+        // 获取当前语言
+        function getCurrentLang() {
+            return localStorage.getItem('language') || 'zh';
+        }
+
+        // 设置语言
+        function setLanguage(lang) {
+            // 更新页面语言属性
+            document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+            
+            // 更新页面标题
+            document.title = lang === 'zh' ? "Moyuin's Home" : "Moyuin's Home";
+            
+            // 更新所有带有 data-zh 和 data-en 的元素
+            document.querySelectorAll('[data-zh][data-en]').forEach(element => {
+                const text = element.getAttribute(`data-${lang}`);
+                if (text) {
+                    element.textContent = text;
+                }
+            });
+            
+            // 更新 title 属性
+            document.querySelectorAll('[data-title-zh][data-title-en]').forEach(element => {
+                const title = element.getAttribute(`data-title-${lang}`);
+                if (title) {
+                    element.setAttribute('title', title);
+                    element.setAttribute('aria-label', title);
+                }
+            });
+            
+            // 更新按钮的 title
+            const themeBtn = document.getElementById('themeToggleBtn');
+            themeBtn.setAttribute('title', lang === 'zh' ? '切换明暗模式' : 'Toggle theme');
+            themeBtn.setAttribute('aria-label', lang === 'zh' ? '切换明暗模式' : 'Toggle theme');
+            
+            langBtn.setAttribute('title', lang === 'zh' ? '切换语言' : 'Switch language');
+            langBtn.setAttribute('aria-label', lang === 'zh' ? '切换语言' : 'Switch language');
+            
+            // 保存到本地存储
+            localStorage.setItem('language', lang);
+            
+            // 可选：给图标添加一个小动画反馈
+            const langIcon = document.querySelector('.lang-icon');
+            if (langIcon) {
+                langIcon.style.transform = 'scale(0.9)';
+                setTimeout(() => {
+                    langIcon.style.transform = 'scale(1)';
+                }, 150);
+            }
+        }
+
+        // 语言切换按钮事件
+        langBtn.addEventListener('click', () => {
+            const currentLang = getCurrentLang();
+            const newLang = currentLang === 'zh' ? 'en' : 'zh';
+            setLanguage(newLang);
+        });
+
+        // 初始化语言
+        function initLanguage() {
+            const savedLang = getCurrentLang();
+            setLanguage(savedLang);
+        }
+
+        // 在 initTheme() 后调用
+        initLanguage();
     </script>
 </body>
 

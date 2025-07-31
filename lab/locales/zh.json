@@ -1,0 +1,30 @@
+{
+  "title": "实验室 · Moyuin 的主页",
+  "theme_toggle_title": "切换明暗模式",
+  "lang_toggle_title": "切换语言",
+  "nav_home": "首页",
+  "nav_blog": "博客",
+  "nav_notes": "笔记",
+  "nav_lab": "实验室",
+  "status_online": "在线",
+  "status_offline": "离线",
+  "status_unknown": "未知",
+  "no_services": "未找到任何服务。",
+  "load_error": "加载服务失败，请查看控制台获取更多信息。",
+  "services": {
+    "memos": { "desc": "一个轻量级的、自托管的备忘录中心。" },
+    "rsshub": { "desc": "为万物生成 RSS 订阅源。" },
+    "picoshare": { "desc": "一个极简主义的、自托管的文件共享服务。" },
+    "cloudreve": { "desc": "一个自托管的云盘和文件管理系统。" },
+    "lsky_pro": { "desc": "一个功能强大且易于使用的图床系统。" },
+    "minio": { "desc": "高性能、兼容 S3 的对象存储。" },
+    "nezha_monitor": { "desc": "一个自托管的服务器状态和监控仪表盘。" },
+    "umami": { "desc": "一个简单的、注重隐私的网络分析解决方案。" }
+  },
+  "categories": {
+    "Tools": "工具",
+    "Storage": "存储",
+    "DevOps": "运维",
+    "Admin": "管理"
+  }
+}
