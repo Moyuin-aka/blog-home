@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
-
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <title>Lab · Moyuin's Home</title>
+    <title data-i18n="title">Lab · Moyuin's Home</title>
     <script>
       //- Fix dark mode flashing
       (function() {
@@ -52,8 +51,9 @@
             background: var(--bg);
             color: var(--text);
             font-family: 'Roboto','Inter', 'PingFang SC', 'Segoe UI', Arial, sans-serif;
-            transition: background .3s, color .3s;
+            transition: background .3s, color .3s, opacity .3s ease-in-out;
             padding-bottom: 60px;
+            opacity: 0; /* Hide by default */
         }
 
         .container {
@@ -81,6 +81,12 @@
             color: var(--text);
         }
 
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
         .links a {
             color: var(--grey);
             margin: 0 10px;
@@ -92,23 +98,31 @@
         .links a:hover, .links a.active {
             color: var(--purple);
         }
+        
+        .controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-left: 1px solid var(--border);
+            padding-left: 20px;
+            margin-left: 10px;
+        }
 
-        .theme-toggle {
-            position: absolute;
-            top: 24px;
-            right: 36px;
+        .theme-toggle, .lang-toggle {
             cursor: pointer;
             background: transparent;
             border: none;
             outline: none;
-            font-size: 1.6rem;
             color: var(--purple);
             transition: color .25s, background .3s;
             z-index: 10;
-            padding: 4px 7px;
+            padding: 5px;
             border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-        .theme-toggle:hover {
+        .theme-toggle:hover, .lang-toggle:hover {
              background: rgba(162, 89, 236, .10);
         }
 
@@ -204,164 +218,55 @@
             color: var(--grey);
         }
 
-        @media (max-width: 600px) {
+        @media (max-width: 768px) {
             .header {
                 flex-direction: column;
                 align-items: flex-start;
-                gap: 15px;
+                gap: 20px;
             }
-            .theme-toggle {
-                top: 15px;
-                right: 15px;
+            .header-right {
+                width: 100%;
+                justify-content: space-between;
+            }
+            .controls {
+                margin-left: 0;
+                padding-left: 10px;
             }
         }
     </style>
 </head>
 
 <body>
-    <button class="theme-toggle" id="themeToggleBtn" title="切换明暗模式" aria-label="切换明暗模式">
-        <span class="icon-sun" style="display:none;">
-            <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
-        </span>
-        <span class="icon-moon" style="display:none;">
-            <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
-        </span>
-    </button>
-
     <div class="container">
         <header class="header">
             <div class="title"><a href="/">Moyuin's Home</a></div>
-            <nav class="links">
-                <a href="/">Home</a>
-                <a href="https://blog.moyuin.top">Blog</a>
-                <a href="https://notes.moyuin.top">Notes</a>
-                <a href="/lab/" class="active">Lab</a>
-            </nav>
+            <div class="header-right">
+                <nav class="links">
+                    <a href="/" data-i18n="nav_home">Home</a>
+                    <a href="https://blog.moyuin.top" data-i18n="nav_blog">Blog</a>
+                    <a href="https://notes.moyuin.top" data-i18n="nav_notes">Notes</a>
+                    <a href="/lab/" class="active" data-i18n="nav_lab">Lab</a>
+                </nav>
+                <div class="controls">
+                    <button class="theme-toggle" id="themeToggleBtn" data-i18n-title="theme_toggle_title" aria-label="Toggle theme">
+                        <span class="icon-sun" style="display:none;"><svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg></span>
+                        <span class="icon-moon" style="display:none;"><svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></span>
+                    </button>
+                    <button class="lang-toggle" id="langToggleBtn" data-i18n-title="lang_toggle_title" aria-label="Switch language">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12.87 15.07l-2.54-2.51.03-.03c1.74-1.94 2.98-4.17 3.71-6.53H17V4h-7V2H8v2H1v1.99h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z"></path></svg>
+                    </button>
+                </div>
+            </div>
         </header>
 
         <main id="lab-container">
-            <!-- Categories and services will be loaded here -->
+            <!-- Services will be loaded here by app.js -->
         </main>
     </div>
 
-    <script>
-        // Theme switcher logic
-        const btn = document.getElementById('themeToggleBtn');
-        const html = document.documentElement;
-        
-        function getSavedTheme() { return localStorage.getItem('theme-mode'); }
-        
-        function setTheme(mode) {
-            html.classList.toggle('dark', mode === 'dark');
-            updateThemeIcon();
-        }
-
-        function updateThemeIcon() {
-            const isDark = html.classList.contains('dark');
-            document.querySelector('.icon-sun').style.display = isDark ? 'none' : 'inline';
-            document.querySelector('.icon-moon').style.display = isDark ? 'inline' : 'none';
-        }
-
-        btn.addEventListener('click', () => {
-            const newMode = html.classList.contains('dark') ? 'light' : 'dark';
-            setTheme(newMode);
-            localStorage.setItem('theme-mode', newMode);
-        });
-
-        function initTheme() {
-            let mode = getSavedTheme();
-            if (!mode) {
-                mode = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-            }
-            setTheme(mode);
-        }
-        
-        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
-            if (!getSavedTheme()) { 
-                setTheme(e.matches ? 'dark' : 'light');
-            }
-        });
-
-        initTheme();
-
-        // Load services
-        async function loadServices() {
-            const container = document.getElementById('lab-container');
-            try {
-                const response = await fetch('services.json?_=' + Date.now());
-                const data = await response.json();
-                const services = data.services || [];
-
-                if (services.length === 0) {
-                    container.innerHTML = '<p>No services found.</p>';
-                    return;
-                }
-
-                const categories = {
-                    "Tools": [],
-                    "Storage": [],
-                    "DevOps": [],
-                    "Admin": []
-                };
-
-                for (const service of services) {
-                    if (categories[service.category]) {
-                        categories[service.category].push(service);
-                    }
-                }
-
-                container.innerHTML = ''; // Clear existing
-
-                for (const categoryName in categories) {
-                    const categoryServices = categories[categoryName];
-                    if (categoryServices.length > 0) {
-                        const section = document.createElement('section');
-                        section.className = 'category-section';
-
-                        const title = document.createElement('h2');
-                        title.className = 'category-title';
-                        title.textContent = categoryName;
-                        section.appendChild(title);
-
-                        const grid = document.createElement('div');
-                        grid.className = 'services-grid';
-
-                        for (const service of categoryServices) {
-                            const card = document.createElement('a');
-                            card.href = service.url;
-                            card.className = 'service-card';
-                            card.target = service.target || '_blank';
-                            card.rel = 'noopener noreferrer';
-
-                            const status = service.status?.state || 'unknown';
-                            const statusText = { up: 'Online', down: 'Offline', unknown: 'Unknown' }[status];
-
-                            card.innerHTML = `
-                                <div class="card-header">
-                                    <div class="card-icon">${service.icon_svg || ''}</div>
-                                    <div class="card-title">${service.name || 'Unnamed Service'}</div>
-                                </div>
-                                <div class="card-desc">${service.desc || ''}</div>
-                                <div class="card-footer">
-                                    <span class="status-dot ${status}"></span>
-                                    <span class="status-text">${statusText}</span>
-                                </div>
-                            `;
-                            grid.appendChild(card);
-                        }
-                        section.appendChild(grid);
-                        container.appendChild(section);
-                    }
-                }
-
-            } catch (error) {
-                console.error('Error loading services:', error);
-                container.innerHTML = '<p>Failed to load services. Please check the console for details.</p>';
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', loadServices);
-    </script>
+    <script src="i18next.min.js"></script>
+    <script src="i18nextHttpBackend.min.js"></script>
+    <script src="i18nextBrowserLanguageDetector.min.js"></script>
+    <script src="app.js"></script>
 </body>
-
 </html>
