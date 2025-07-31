@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         card.rel = 'noopener noreferrer';
                         const status = service.status?.state || 'unknown';
                         const statusKey = `status_${status === 'up' ? 'online' : (status === 'down' ? 'offline' : 'unknown')}`;
-                        const serviceDescKey = `services.${service.name.toLowerCase().replace(/\s+/g, '_')}.desc`;
+                        const serviceDescKey = `services.${service.name.toLowerCase().replace(/[^a-z0-9_]+/g, '_')}.desc`;
                         card.innerHTML = `
                             <div class="card-header">
                                 <div class="card-icon">${service.icon_svg || ''}</div>
@@ -139,7 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
             fallbackLng: 'en',
             load: 'languageOnly', 
             debug: false,
-            backend: { loadPath: 'locales/{{lng}}.json?v=' + Date.now() },
+            backend: { loadPath: 'locales/{{lng}}.json' },
             detection: { caches: ['cookie', 'localStorage'] },
         }, (err, t) => {
             if (err) {
