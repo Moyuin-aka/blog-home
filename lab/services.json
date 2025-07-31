@@ -1,0 +1,51 @@
+{
+  "services": [
+    {
+      "name": "博客 / Home",
+      "url": "https://blog.moyuin.top/",
+      "icon": "🏠",
+      "desc": "我的主页与文章。",
+      "tags": [
+        "public",
+        "content"
+      ]
+    },
+    {
+      "name": "相册（示例）",
+      "url": "https://photos.example.com/",
+      "icon": "🖼️",
+      "desc": "自建相册服务，例如 Immich/Photoprism。",
+      "tags": [
+        "public",
+        "media"
+      ],
+      "status": {
+        "state": "unknown"
+      }
+    },
+    {
+      "name": "密码库（示例）",
+      "url": "https://vault.example.com/",
+      "icon": "🔐",
+      "desc": "自托管密码管理（如 Vaultwarden）。",
+      "tags": [
+        "private",
+        "security"
+      ],
+      "status": {
+        "state": "unknown"
+      },
+      "target": "_self"
+    },
+    {
+      "name": "服务器监控",
+      "url": "https://server.moyuin.top/",
+      "icon": "🖥️",
+      "desc": "我的服务器状态监控面板。",
+      "tags": ["monitoring", "infra"],
+      "status": {
+        "state": "unknown"
+      }
+    }
+  ]
+}

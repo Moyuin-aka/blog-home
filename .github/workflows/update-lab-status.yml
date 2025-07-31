@@ -1,0 +1,74 @@
+name: Update Lab Status
+
+on:
+  schedule:
+    - cron: '0 * * * *' # 每小时运行一次
+  workflow_dispatch: # 允许手动触发
+
+jobs:
+  update-status:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Run status check script
+        id: status_check
+        run: |
+          node -e "
+            const fs = require('fs');
+            const path = require('path');
+            const https = require('https');
+
+            const servicesPath = path.join(process.env.GITHUB_WORKSPACE, 'lab', 'services.json');
+            const servicesData = JSON.parse(fs.readFileSync(servicesPath, 'utf8'));
+            let changed = false;
+
+            async function checkService(service) {
+              return new Promise(resolve => {
+                const url = new URL(service.url);
+                const req = https.request({ ...url, timeout: 5000 }, (res) => {
+                  const newState = (res.statusCode >= 200 && res.statusCode < 400) ? 'up' : 'down';
+                  if (!service.status || service.status.state !== newState) {
+                    service.status = { ...service.status, state: newState };
+                    changed = true;
+                  }
+                  resolve();
+                });
+                req.on('error', () => {
+                  if (!service.status || service.status.state !== 'down') {
+                    service.status = { ...service.status, state: 'down' };
+                    changed = true;
+                  }
+                  resolve();
+                });
+                req.end();
+              });
+            }
+
+            async function run() {
+              await Promise.all(servicesData.services.map(checkService));
+              if (changed) {
+                fs.writeFileSync(servicesPath, JSON.stringify(servicesData, null, 2) + '\n');
+                console.log('::set-output name=changed::true');
+              } else {
+                console.log('::set-output name=changed::false');
+              }
+            }
+
+            run();
+          "
+
+      - name: Commit and push if changed
+        if: steps.status_check.outputs.changed == 'true'
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add lab/services.json
+          git commit -m 'chore(lab): Update service status'
+          git push
