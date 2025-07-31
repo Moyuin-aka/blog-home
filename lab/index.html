@@ -33,6 +33,7 @@
             --status-ok: #2ecc71;
             --status-down: #ff6b6b;
             --status-unknown: #ccc;
+            --icon-color: var(--grey);
         }
 
         html.dark {
@@ -41,6 +42,7 @@
             --grey: #a6a6c1;
             --border: #2d2d50;
             --card-bg: #1a1a33;
+            --icon-color: #b5aed6;
         }
 
         body {
@@ -109,6 +111,18 @@
              background: rgba(162, 89, 236, .10);
         }
 
+        .category-section {
+            margin-bottom: 40px;
+        }
+
+        .category-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 10px;
+        }
+
         .services-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -141,13 +155,17 @@
             gap: 15px;
         }
 
-        .card-icon {
-            font-size: 2rem;
-            width: 48px;
-            height: 48px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .card-icon svg {
+            width: 28px;
+            height: 28px;
+            color: var(--icon-color);
+            opacity: 0.7;
+            transition: opacity .2s, color .2s;
+        }
+
+        .service-card:hover .card-icon svg {
+            opacity: 1;
+            color: var(--purple);
         }
 
         .card-title {
@@ -216,14 +234,12 @@
                 <a href="/">Home</a>
                 <a href="https://blog.moyuin.top">Blog</a>
                 <a href="https://notes.moyuin.top">Notes</a>
-                <a href="/lab.html" class="active">Lab</a>
+                <a href="/lab/" class="active">Lab</a>
             </nav>
         </header>
 
-        <main>
-            <div id="services-grid" class="services-grid">
-                <!-- Services will be loaded here -->
-            </div>
+        <main id="lab-container">
+            <!-- Categories and services will be loaded here -->
         </main>
     </div>
 
@@ -269,44 +285,77 @@
 
         // Load services
         async function loadServices() {
-            const grid = document.getElementById('services-grid');
+            const container = document.getElementById('lab-container');
             try {
-                const response = await fetch('lab/services.json?_=' + Date.now());
+                const response = await fetch('services.json?_=' + Date.now());
                 const data = await response.json();
                 const services = data.services || [];
 
                 if (services.length === 0) {
-                    grid.innerHTML = '<p>No services found.</p>';
+                    container.innerHTML = '<p>No services found.</p>';
                     return;
                 }
 
-                grid.innerHTML = ''; // Clear existing
+                const categories = {
+                    "Tools": [],
+                    "Storage": [],
+                    "DevOps": [],
+                    "Admin": []
+                };
+
                 for (const service of services) {
-                    const card = document.createElement('a');
-                    card.href = service.url;
-                    card.className = 'service-card';
-                    card.target = service.target || '_blank';
-                    card.rel = 'noopener noreferrer';
-
-                    const status = service.status?.state || 'unknown';
-                    const statusText = { up: 'Online', down: 'Offline', unknown: 'Unknown' }[status];
-
-                    card.innerHTML = `
-                        <div class="card-header">
-                            <div class="card-icon">${service.icon || '🔗'}</div>
-                            <div class="card-title">${service.name || 'Unnamed Service'}</div>
-                        </div>
-                        <div class="card-desc">${service.desc || ''}</div>
-                        <div class="card-footer">
-                            <span class="status-dot ${status}"></span>
-                            <span class="status-text">${statusText}</span>
-                        </div>
-                    `;
-                    grid.appendChild(card);
+                    if (categories[service.category]) {
+                        categories[service.category].push(service);
+                    }
                 }
+
+                container.innerHTML = ''; // Clear existing
+
+                for (const categoryName in categories) {
+                    const categoryServices = categories[categoryName];
+                    if (categoryServices.length > 0) {
+                        const section = document.createElement('section');
+                        section.className = 'category-section';
+
+                        const title = document.createElement('h2');
+                        title.className = 'category-title';
+                        title.textContent = categoryName;
+                        section.appendChild(title);
+
+                        const grid = document.createElement('div');
+                        grid.className = 'services-grid';
+
+                        for (const service of categoryServices) {
+                            const card = document.createElement('a');
+                            card.href = service.url;
+                            card.className = 'service-card';
+                            card.target = service.target || '_blank';
+                            card.rel = 'noopener noreferrer';
+
+                            const status = service.status?.state || 'unknown';
+                            const statusText = { up: 'Online', down: 'Offline', unknown: 'Unknown' }[status];
+
+                            card.innerHTML = `
+                                <div class="card-header">
+                                    <div class="card-icon">${service.icon_svg || ''}</div>
+                                    <div class="card-title">${service.name || 'Unnamed Service'}</div>
+                                </div>
+                                <div class="card-desc">${service.desc || ''}</div>
+                                <div class="card-footer">
+                                    <span class="status-dot ${status}"></span>
+                                    <span class="status-text">${statusText}</span>
+                                </div>
+                            `;
+                            grid.appendChild(card);
+                        }
+                        section.appendChild(grid);
+                        container.appendChild(section);
+                    }
+                }
+
             } catch (error) {
                 console.error('Error loading services:', error);
-                grid.innerHTML = '<p>Failed to load services. Please check the console for details.</p>';
+                container.innerHTML = '<p>Failed to load services. Please check the console for details.</p>';
             }
         }
 

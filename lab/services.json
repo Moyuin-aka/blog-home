@@ -1,51 +1,68 @@
 {
   "services": [
     {
-      "name": "博客 / Home",
-      "url": "https://blog.moyuin.top/",
-      "icon": "🏠",
-      "desc": "我的主页与文章。",
-      "tags": [
-        "public",
-        "content"
-      ]
+      "name": "Memos",
+      "url": "https://memos.moyuin.top",
+      "icon_svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z\"/><polyline points=\"14 2 14 8 20 8\"/><line x1=\"16\" y1=\"13\" x2=\"8\" y2=\"13\"/><line x1=\"16\" y1=\"17\" x2=\"8\" y2=\"17\"/><polyline points=\"10 9 9 9 8 9\"/></svg>",
+      "desc": "A lightweight, self-hosted memo hub.",
+      "category": "Tools",
+      "status": { "state": "unknown" }
     },
     {
-      "name": "相册（示例）",
-      "url": "https://photos.example.com/",
-      "icon": "🖼️",
-      "desc": "自建相册服务，例如 Immich/Photoprism。",
-      "tags": [
-        "public",
-        "media"
-      ],
-      "status": {
-        "state": "unknown"
-      }
+      "name": "RSSHub",
+      "url": "https://rsshub.moyuin.top",
+      "icon_svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M4 11a9 9 0 0 1 9 9\"/><path d=\"M4 4a16 16 0 0 1 16 16\"/><circle cx=\"5\" cy=\"19\" r=\"1\"/></svg>",
+      "desc": "Generate RSS feeds for everything.",
+      "category": "Tools",
+      "status": { "state": "unknown" }
     },
     {
-      "name": "密码库（示例）",
-      "url": "https://vault.example.com/",
-      "icon": "🔐",
-      "desc": "自托管密码管理（如 Vaultwarden）。",
-      "tags": [
-        "private",
-        "security"
-      ],
-      "status": {
-        "state": "unknown"
-      },
-      "target": "_self"
+      "name": "picoShare",
+      "url": "https://share.moyuin.top",
+      "icon_svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4\"/><polyline points=\"17 8 12 3 7 8\"/><line x1=\"12\" y1=\"3\" x2=\"12\" y2=\"15\"/></svg>",
+      "desc": "A minimalist, self-hosted file sharing service.",
+      "category": "Storage",
+      "status": { "state": "unknown" }
     },
     {
-      "name": "服务器监控",
-      "url": "https://server.moyuin.top/",
-      "icon": "🖥️",
-      "desc": "我的服务器状态监控面板。",
-      "tags": ["monitoring", "infra"],
-      "status": {
-        "state": "unknown"
-      }
+      "name": "Cloudreve",
+      "url": "https://cloud.moyuin.top",
+      "icon_svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z\"/></svg>",
+      "desc": "A self-hosted cloud drive and file management system.",
+      "category": "Storage",
+      "status": { "state": "unknown" }
+    },
+    {
+      "name": "Lsky Pro",
+      "url": "https://img.moyuin.top",
+      "icon_svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"3\" y=\"3\" width=\"18\" height=\"18\" rx=\"2\" ry=\"2\"/><circle cx=\"8.5\" cy=\"8.5\" r=\"1.5\"/><polyline points=\"21 15 16 10 5 21\"/></svg>",
+      "desc": "A powerful and easy-to-use image hosting system.",
+      "category": "Storage",
+      "status": { "state": "unknown" }
+    },
+    {
+      "name": "MinIO",
+      "url": "https://s3.moyuin.top",
+      "icon_svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><ellipse cx=\"12\" cy=\"5\" rx=\"9\" ry=\"3\"/><path d=\"M21 12c0 1.66-4 3-9 3s-9-1.34-9-3\"/><path d=\"M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5\"/></svg>",
+      "desc": "High-performance, S3 compatible object storage.",
+      "category": "Storage",
+      "status": { "state": "unknown" }
+    },
+    {
+      "name": "Nezha Monitor",
+      "url": "https://server.moyuin.top",
+      "icon_svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polyline points=\"22 12 18 12 15 21 9 3 6 12 2 12\"/></svg>",
+      "desc": "A self-hosted server status and monitoring dashboard.",
+      "category": "DevOps",
+      "status": { "state": "unknown" }
+    },
+    {
+      "name": "Umami",
+      "url": "https://umami.moyuin.top",
+      "icon_svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M12 20v-6M6 20v-1M18 20v-4\"/></svg>",
+      "desc": "A simple, privacy-focused web analytics solution.",
+      "category": "Admin",
+      "status": { "state": "unknown" }
     }
   ]
 }
