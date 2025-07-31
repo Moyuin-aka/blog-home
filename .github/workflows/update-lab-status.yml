@@ -2,20 +2,24 @@ name: Update Lab Status
 
 on:
   schedule:
-    - cron: '0 * * * *' # 每小时运行一次
-  workflow_dispatch: # 允许手动触发
+    - cron: '0 * * * *' # 每小时运行一次（UTC）
+  workflow_dispatch: # 手动触发
+
+# 确保有权限推送
+permissions:
+  contents: write
 
 jobs:
   update-status:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '20'
 
       - name: Run status check script
         id: status_check
@@ -31,33 +35,47 @@ jobs:
 
             async function checkService(service) {
               return new Promise(resolve => {
-                const url = new URL(service.url);
-                const req = https.request({ ...url, timeout: 5000 }, (res) => {
-                  const newState = (res.statusCode >= 200 && res.statusCode < 400) ? 'up' : 'down';
-                  if (!service.status || service.status.state !== newState) {
-                    service.status = { ...service.status, state: newState };
-                    changed = true;
-                  }
-                  resolve();
-                });
-                req.on('error', () => {
+                try {
+                  const url = new URL(service.url);
+                  const req = https.request(
+                    { method: 'HEAD', protocol: url.protocol, hostname: url.hostname, path: url.pathname + url.search },
+                    (res) => {
+                      const newState = (res.statusCode >= 200 && res.statusCode < 400) ? 'up' : 'down';
+                      if (!service.status || service.status.state !== newState) {
+                        service.status = { ...service.status, state: newState };
+                        changed = true;
+                      }
+                      resolve();
+                    }
+                  );
+                  // 超时保护（Node 的 request 需要手动销毁）
+                  req.setTimeout(5000, () => req.destroy(new Error('timeout')));
+                  req.on('error', () => {
+                    if (!service.status || service.status.state !== 'down') {
+                      service.status = { ...service.status, state: 'down' };
+                      changed = true;
+                    }
+                    resolve();
+                  });
+                  req.end();
+                } catch {
                   if (!service.status || service.status.state !== 'down') {
                     service.status = { ...service.status, state: 'down' };
                     changed = true;
                   }
                   resolve();
-                });
-                req.end();
+                }
               });
             }
 
             async function run() {
               await Promise.all(servicesData.services.map(checkService));
               if (changed) {
-                fs.writeFileSync(servicesPath, JSON.stringify(servicesData, null, 2) + '\n');
-                console.log('::set-output name=changed::true');
+                fs.writeFileSync(servicesPath, JSON.stringify(servicesData, null, 2) + '\\n');
+                // 用环境文件方式输出变量
+                fs.appendFileSync(process.env.GITHUB_OUTPUT, 'changed=true\\n');
               } else {
-                console.log('::set-output name=changed::false');
+                fs.appendFileSync(process.env.GITHUB_OUTPUT, 'changed=false\\n');
               }
             }
 
@@ -67,8 +85,8 @@ jobs:
       - name: Commit and push if changed
         if: steps.status_check.outputs.changed == 'true'
         run: |
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
           git add lab/services.json
-          git commit -m 'chore(lab): Update service status'
+          git commit -m 'chore(lab): Update service status' || echo 'No changes to commit'
           git push
