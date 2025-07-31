@@ -33,7 +33,11 @@
 
     <!-- PWA站点用manifest（可选） -->
     <link rel="manifest" href="/favicon_io/site.webmanifest">
-    <style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+        <style>
+        
         :root {
             --purple: #a259ec;
             --bg: #fff;
@@ -49,7 +53,8 @@
             padding: 0;
             background: var(--bg);
             color: var(--text);
-            font-family: 'Inter', 'PingFang SC', 'Segoe UI', Arial, sans-serif;
+            font-family: 'Roboto', 'Inter', 'PingFang SC', 'Segoe UI', Arial, sans-serif;
+            font-weight: 600;
             min-height: 100vh;
             transition: background .3s, color .3s;
         }
@@ -126,7 +131,7 @@
 
         .links a:hover {
             color: var(--purple);
-        }
+        }        
 
         /* 夜间模式按钮 */
         .theme-toggle {
