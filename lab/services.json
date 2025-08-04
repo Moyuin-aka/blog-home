@@ -63,7 +63,7 @@
       "category": "Storage",
       "status": {
         "state": "up",
-        "http": 307
+        "http": 200
       }
     },
     {
