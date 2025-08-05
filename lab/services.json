@@ -73,8 +73,8 @@
       "desc": "A self-hosted server status and monitoring dashboard.",
       "category": "DevOps",
       "status": {
-        "state": "down",
-        "http": 502
+        "state": "up",
+        "http": 200
       }
     },
     {
