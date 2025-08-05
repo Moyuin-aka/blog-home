@@ -19,7 +19,8 @@
     "lsky_pro": { "desc": "A powerful and easy-to-use image hosting system." },
     "minio": { "desc": "High-performance, S3 compatible object storage." },
     "nezha_monitor": { "desc": "A self-hosted server status and monitoring dashboard." },
-    "umami": { "desc": "A simple, privacy-focused web analytics solution." }
+    "umami": { "desc": "A simple, privacy-focused web analytics solution." },
+    "syncthing": { "desc": "A continuous file synchronization program." }
   },
   "categories": {
     "Tools": "Tools",
