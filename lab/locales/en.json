@@ -20,7 +20,8 @@
     "minio": { "desc": "High-performance, S3 compatible object storage." },
     "nezha_monitor": { "desc": "A self-hosted server status and monitoring dashboard." },
     "umami": { "desc": "A simple, privacy-focused web analytics solution." },
-    "syncthing": { "desc": "A continuous file synchronization program." }
+    "syncthing": { "desc": "A continuous file synchronization program." },
+    "it_tools": { "desc": "A collection of useful IT tools." }
   },
   "categories": {
     "Tools": "Tools",
