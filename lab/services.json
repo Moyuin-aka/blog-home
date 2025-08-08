@@ -84,7 +84,7 @@
       "desc": "A simple, privacy-focused web analytics solution.",
       "category": "Admin",
       "status": {
-        "state": "up",
+        "state": "down",
         "http": 307
       }
     },
