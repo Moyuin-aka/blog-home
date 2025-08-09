@@ -40,7 +40,7 @@
       "desc": "A self-hosted cloud drive and file management system.",
       "category": "Storage",
       "status": {
-        "state": "down",
+        "state": "up",
         "http": 200
       }
     },
@@ -105,7 +105,7 @@
       "desc": "A collection of useful IT tools.",
       "category": "Tools",
       "status": {
-        "state": "down",
+        "state": "up",
         "http": 200
       }
     }
