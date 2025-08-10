@@ -51,8 +51,8 @@
       "desc": "A powerful and easy-to-use image hosting system.",
       "category": "Storage",
       "status": {
-        "state": "up",
-        "http": 302
+        "state": "down",
+        "http": 502
       }
     },
     {
