@@ -2,16 +2,15 @@
 import ThemeToggle from './ThemeToggle.astro';
 ---
 <header class="header">
-    <div class="title"><a href="/" target="_top">Moyuin's Home</a></div>
+    <div class="title"><a href="/" data-astro-transition="site-title">Moyuin's Home</a></div>
     <div class="header-right">
         <nav class="links">
-            <a href="/" data-i18n="nav_home" target="_top">Home</a>
-            <a href="https://blog.moyuin.top" data-i18n="nav_blog">Blog</a>
-            <a href="https://notes.moyuin.top" data-i18n="nav_notes">Notes</a>
+            <a href="/" data-i18n="nav_home" >Home</a>
+            <a href="https://blog.moyuin.top" data-i18n="nav_blog" target="_blank" rel="noopener">Blog</a>
+            <a href="https://notes.moyuin.top" data-i18n="nav_notes" target="_blank" rel="noopener">Notes</a>
             <a href="/lab" class="active" data-i18n="nav_lab">Lab</a>
         </nav>
         <div class="controls">
-            <!-- 用统一的组件，避免重复实现 -->
             <ThemeToggle />
             <button class="lang-toggle" id="labLangToggleBtn" data-i18n-title="lang_toggle_title" aria-label="Switch language">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12.87 15.07l-2.54-2.51.03-.03c1.74-1.94 2.98-4.17 3.71-6.53H17V4h-7V2H8v2H1v1.99h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z"></path></svg>

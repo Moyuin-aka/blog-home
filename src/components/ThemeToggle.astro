@@ -8,46 +8,51 @@
 </button>
 
 <script>
-    // 夜间模式自动+手动切换逻辑
-    const btn = document.getElementById('themeToggleBtn');
-    const html = document.documentElement;
+    function setupThemeToggle() {
+        const btn = document.getElementById('themeToggleBtn');
+        if (!btn) return;
+        
+        const html = document.documentElement;
 
-    // 获取存储
-    function getSavedTheme() {
-        return localStorage.getItem('theme-mode');
-    }
-
-    // 设置主题
-    function setTheme(mode) {
-        if (mode === 'dark') {
-            html.classList.add('dark');
-        } else {
-            html.classList.remove('dark');
+        // 获取存储
+        function getSavedTheme() {
+            return localStorage.getItem('theme-mode');
         }
-    }
 
-    function updateThemeIcon() {
-        const isDark = html.classList.contains('dark');
-        if (btn) {
-            const sunIcon = btn.querySelector('.icon-moon');
-            const moonIcon = btn.querySelector('.icon-sun');
-            if (sunIcon && moonIcon) {
-                sunIcon.style.display = isDark ? 'inline' : 'none';
-                moonIcon.style.display = isDark ? 'none' : 'inline';
+        // 设置主题
+        function setTheme(mode) {
+            if (mode === 'dark') {
+                html.classList.add('dark');
+            } else {
+                html.classList.remove('dark');
             }
         }
-    }
 
-    btn.addEventListener('click', () => {
-        const isDark = html.classList.contains('dark');
-        const newMode = isDark ? 'light' : 'dark';
-        setTheme(newMode);
-        localStorage.setItem('theme-mode', newMode);
-        updateThemeIcon();
-    });
+        function updateThemeIcon() {
+            const isDark = html.classList.contains('dark');
+            if (btn) {
+                const sunIcon = btn.querySelector('.icon-moon');
+                const moonIcon = btn.querySelector('.icon-sun');
+                if (sunIcon && moonIcon) {
+                    sunIcon.style.display = isDark ? 'inline' : 'none';
+                    moonIcon.style.display = isDark ? 'none' : 'inline';
+                }
+            }
+        }
 
-    // 初始化
-    function initTheme() {
+        // 先移除旧事件监听器，再添加新的（防止重复绑定）
+        const handleThemeClick = () => {
+            const isDark = html.classList.contains('dark');
+            const newMode = isDark ? 'light' : 'dark';
+            setTheme(newMode);
+            localStorage.setItem('theme-mode', newMode);
+            updateThemeIcon();
+        };
+
+        btn.removeEventListener('click', handleThemeClick);
+        btn.addEventListener('click', handleThemeClick);
+
+        // 初始化主题
         let mode = getSavedTheme();
         if (!mode) {
             // 默认跟随系统
@@ -59,16 +64,21 @@
         }
         setTheme(mode);
         updateThemeIcon();
+
+        // 系统主题变更时联动（自动模式下）
+        const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+        const handleSystemThemeChange = (e) => {
+            if (!getSavedTheme()) { // 没手动设置过才自动跟随
+                setTheme(e.matches ? 'dark' : 'light');
+                updateThemeIcon();
+            }
+        };
+        
+        mediaQuery.removeEventListener('change', handleSystemThemeChange);
+        mediaQuery.addEventListener('change', handleSystemThemeChange);
     }
 
-    // 系统主题变更时联动（自动模式下）
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
-        if (!getSavedTheme()) { // 没手动设置过才自动跟随
-            setTheme(e.matches ? 'dark' : 'light');
-            updateThemeIcon();
-        }
-    });
-
-    // 初始化
-    document.addEventListener('DOMContentLoaded', initTheme);
+    // 同时监听 DOMContentLoaded 和 astro:page-load
+    document.addEventListener('DOMContentLoaded', setupThemeToggle);
+    document.addEventListener('astro:page-load', setupThemeToggle);
 </script>

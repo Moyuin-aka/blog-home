@@ -1,4 +1,9 @@
 {
+  "home_title": "Moyuin's Home",
+  "nickname": "Moyuin",
+  "icon_email_title": "Email",
+  "icon_github_title": "GitHub",
+  "icon_twitter_title": "Twitter/X",
   "title": "Lab · Moyuin's Home",
   "theme_toggle_title": "Toggle light/dark mode",
   "lang_toggle_title": "Switch Language",
