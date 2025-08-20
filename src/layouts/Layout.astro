@@ -76,35 +76,33 @@ const { title } = Astro.props;
             i18next.changeLanguage(newLang);
         };
 
-        const setupI18n = () => {
-            if (!i18next.isInitialized) {
-                i18next
-                    .use(i18nextHttpBackend)
-                    .use(i18nextBrowserLanguageDetector)
-                    .init({
-                        fallbackLng: 'en',
-                        load: 'languageOnly',
-                        debug: false,
-                        backend: { loadPath: '/locales/{{lng}}.json' },
-                        detection: { caches: ['cookie', 'localStorage'] },
-                    }, (err) => {
-                        if (err) return console.error('i18next init failed:', err);
-                        i18next.on('languageChanged', updateUI);
-                        updateUI();
-                    });
-            } else {
-                updateUI();
-            }
+        const setupI18n = async () => {
+            // Use async/await to ensure initialization is complete
+            await i18next
+                .use(i18nextHttpBackend)
+                .use(i18nextBrowserLanguageDetector)
+                .init({
+                    fallbackLng: 'en',
+                    load: 'languageOnly',
+                    debug: false,
+                    backend: { loadPath: '/locales/{{lng}}.json' },
+                    detection: { caches: ['cookie', 'localStorage'] },
+                });
+
+            // This code now waits until the above init() is done
+            updateUI();
 
             // Attach listeners to whichever button is present
             const langBtn = document.getElementById('langToggleBtn');
             const labLangBtn = document.getElementById('labLangToggleBtn');
             if (langBtn) langBtn.addEventListener('click', handleLangClick);
             if (labLangBtn) labLangBtn.addEventListener('click', handleLangClick);
+
+            // Ensure UI updates on future language changes
+            i18next.on('languageChanged', updateUI);
         };
 
         document.addEventListener('astro:page-load', setupI18n);
-        setupI18n();
     </script>
 </body>
 </html>
