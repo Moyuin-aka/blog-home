@@ -229,49 +229,61 @@ const updateUI = () => {
     document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
         if (key) {
-            const translatedText = i18next.t(key);
-            // Only update if the translation is different to avoid overwriting static content with keys
-            if (translatedText !== key) {
-                el.textContent = translatedText;
-            }
+            const text = i18next.t(key);
+            if (text !== key) el.textContent = text;
         }
     });
     document.querySelectorAll('[data-i18n-title]').forEach(el => {
         const key = el.getAttribute('data-i18n-title');
         if (key) {
-             const translatedText = i18next.t(key);
-            if (translatedText !== key) {
-                el.setAttribute('title', translatedText);
-            }
+            const text = i18next.t(key);
+            if (text !== key) el.setAttribute('title', text);
         }
     });
     document.title = i18next.t('title');
 };
 
-i18next
-    .use(i18nextHttpBackend)
-    .use(i18nextBrowserLanguageDetector)
-    .init({
-        fallbackLng: 'en',
-        load: 'languageOnly',
-        debug: false,
-        backend: { loadPath: '/locales/{{lng}}.json' }, // Path from public folder
-        detection: { caches: ['cookie', 'localStorage'] },
-    }, (err, t) => {
-        if (err) {
-            return console.error('i18next initialization failed:', err);
-        }
-        // Initial UI update
-        updateUI();
-        // Add event listener for language changes
-        i18next.on('languageChanged', updateUI);
-    });
-
-const langBtn = document.getElementById('labLangToggleBtn');
-if(langBtn) {
-    langBtn.addEventListener('click', () => {
-        const newLang = i18next.language.startsWith('zh') ? 'en' : 'zh';
+function attachLangBtn() {
+    const langBtn = document.getElementById('labLangToggleBtn');
+    if (!langBtn) return;
+    // 用 onclick 覆盖旧处理器，避免重复绑定
+    langBtn.onclick = () => {
+        const newLang = i18next.language?.startsWith('zh') ? 'en' : 'zh';
         i18next.changeLanguage(newLang);
-    });
+    };
 }
+
+function setupLabPage() {
+    if (i18next.isInitialized) {
+        updateUI();
+        attachLangBtn();
+        return;
+    }
+    i18next
+        .use(i18nextHttpBackend)
+        .use(i18nextBrowserLanguageDetector)
+        .init({
+            fallbackLng: 'en',
+            load: 'languageOnly',
+            debug: false,
+            backend: { loadPath: '/locales/{{lng}}.json' },
+            detection: { caches: ['cookie', 'localStorage'] },
+        }, (err) => {
+            if (err) return console.error('i18next init failed:', err);
+            updateUI();
+            i18next.on('languageChanged', updateUI);
+            attachLangBtn();
+        });
+}
+
+// 可选：在页面替换前清理订阅
+document.addEventListener('astro:before-swap', () => {
+    if (i18next.isInitialized) {
+        i18next.off('languageChanged', updateUI);
+    }
+});
+
+// 首次和每次视图切换后运行
+document.addEventListener('astro:page-load', setupLabPage);
+setupLabPage();
 </script>
