@@ -1,0 +1,32 @@
+{
+  "title": "Lab · Moyuin's Home",
+  "theme_toggle_title": "Toggle light/dark mode",
+  "lang_toggle_title": "Switch Language",
+  "nav_home": "Home",
+  "nav_blog": "Blog",
+  "nav_notes": "Notes",
+  "nav_lab": "Lab",
+  "status_online": "Online",
+  "status_offline": "Offline",
+  "status_unknown": "Unknown",
+  "no_services": "No services found.",
+  "load_error": "Failed to load services. Please check the console for details.",
+  "services": {
+    "memos": { "desc": "A lightweight, self-hosted memo hub." },
+    "rsshub": { "desc": "Generate RSS feeds for everything." },
+    "picoshare": { "desc": "A minimalist, self-hosted file sharing service." },
+    "cloudreve": { "desc": "A self-hosted cloud drive and file management system." },
+    "lsky_pro": { "desc": "A powerful and easy-to-use image hosting system." },
+    "minio": { "desc": "High-performance, S3 compatible object storage." },
+    "nezha_monitor": { "desc": "A self-hosted server status and monitoring dashboard." },
+    "umami": { "desc": "A simple, privacy-focused web analytics solution." },
+    "syncthing": { "desc": "A continuous file synchronization program." },
+    "it_tools": { "desc": "A collection of useful IT tools." }
+  },
+  "categories": {
+    "Tools": "Tools",
+    "Storage": "Storage",
+    "DevOps": "DevOps",
+    "Admin": "Admin"
+  }
+}
