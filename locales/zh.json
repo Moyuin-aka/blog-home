@@ -1,4 +1,9 @@
 {
+  "home_title": "Moyuin 的主页",
+  "nickname": "Moyuin",
+  "icon_email_title": "邮箱",
+  "icon_github_title": "GitHub",
+  "icon_twitter_title": "推特",
   "title": "实验室 · Moyuin 的主页",
   "theme_toggle_title": "切换明暗模式",
   "lang_toggle_title": "切换语言",
