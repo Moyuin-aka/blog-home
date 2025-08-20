@@ -13,7 +13,7 @@ const serviceDescKey = `services.${service.name.toLowerCase().replace(/[^a-z0-9_
     </div>
     <div class="card-desc" data-i18n={serviceDescKey}>{service.desc}</div>
     <div class="card-footer">
-        <span class=`status-dot ${status}`></span>
+        <span class={`status-dot ${status}`}></span>
         <span class="status-text" data-i18n={statusKey}>{status}</span>
     </div>
 </a>
