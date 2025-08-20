@@ -1,0 +1,86 @@
+<button class="lang-toggle" id="langToggleBtn" title="切换语言" aria-label="切换语言">
+    <span class="lang-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12.87 15.07l-2.54-2.51.03-.03c1.74-1.94 2.98-4.17 3.71-6.53H17V4h-7V2H8v2H1v1.99h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z" fill="currentColor"/>
+        </svg>
+    </span>
+</button>
+
+<script>
+    // 语言切换功能
+    const langBtn = document.getElementById('langToggleBtn');
+    const themeBtn = document.getElementById('themeToggleBtn'); // Need to get theme button for title updates
+
+    // 获取当前语言
+    function getCurrentLang() {
+        return localStorage.getItem('language') || 'zh';
+    }
+
+    // 设置语言
+    function setLanguage(lang) {
+        // 更新页面语言属性
+        document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+        
+        // 更新页面标题
+        document.title = lang === 'zh' ? "Moyuin的主页" : "Moyuin's Home";
+        
+        // 更新所有带有 data-zh 和 data-en 的元素
+        document.querySelectorAll('[data-zh][data-en]').forEach(element => {
+            const text = element.getAttribute(`data-${lang}`);
+            if (text) {
+                element.textContent = text;
+            }
+        });
+        
+        // 更新 title 属性
+        document.querySelectorAll('[data-title-zh][data-title-en]').forEach(element => {
+            const title = element.getAttribute(`data-title-${lang}`);
+            if (title) {
+                element.setAttribute('title', title);
+                element.setAttribute('aria-label', title);
+            }
+        });
+        
+        // 更新按钮的 title
+        if (themeBtn) {
+            themeBtn.setAttribute('title', lang === 'zh' ? '切换明暗模式' : 'Toggle theme');
+            themeBtn.setAttribute('aria-label', lang === 'zh' ? '切换明暗模式' : 'Toggle theme');
+        }
+        
+        if(langBtn) {
+            langBtn.setAttribute('title', lang === 'zh' ? '切换语言' : 'Switch language');
+            langBtn.setAttribute('aria-label', lang === 'zh' ? '切换语言' : 'Switch language');
+        }
+        
+        // 保存到本地存储
+        localStorage.setItem('language', lang);
+        
+        // 可选：给图标添加一个小动画反馈
+        if(langBtn) {
+            const langIcon = langBtn.querySelector('.lang-icon');
+            if (langIcon) {
+                langIcon.style.transform = 'scale(0.9)';
+                setTimeout(() => {
+                    langIcon.style.transform = 'scale(1)';
+                }, 150);
+            }
+        }
+    }
+
+    // 语言切换按钮事件
+    langBtn.addEventListener('click', () => {
+        const currentLang = getCurrentLang();
+        const newLang = currentLang === 'zh' ? 'en' : 'zh';
+        setLanguage(newLang);
+    });
+
+    // 初始化语言
+    function initLanguage() {
+        const savedLang = getCurrentLang();
+        setLanguage(savedLang);
+    }
+
+    // 初始化
+    document.addEventListener('DOMContentLoaded', initLanguage);
+
+</script>

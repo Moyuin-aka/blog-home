@@ -1,0 +1,28 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ThemeToggle from '../components/ThemeToggle.astro';
+import LangToggle from '../components/LangToggle.astro';
+import UserInfo from '../components/UserInfo.astro';
+import FooterLinks from '../components/FooterLinks.astro';
+---
+
+<Layout title="Moyuin's Home">
+  <ThemeToggle />
+  <LangToggle />
+  <main>
+    <UserInfo />
+    <FooterLinks />
+  </main>
+</Layout>
+
+<style>
+  main {
+    /* Re-apply the centering logic to the main container */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* Ensure it takes up available space to center vertically */
+    flex-grow: 1;
+  }
+</style>
