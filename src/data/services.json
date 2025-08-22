@@ -18,8 +18,8 @@
       "desc": "Generate RSS feeds for everything.",
       "category": "Tools",
       "status": {
-        "state": "up",
-        "http": 200
+        "state": "down",
+        "http": 502
       }
     },
     {
