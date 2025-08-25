@@ -30,6 +30,7 @@
         background: var(--bg);
         transition: background .3s, color .3s;
         position: relative;
+        visibility: hidden; 
     }
 
     .avatar {
@@ -230,5 +231,24 @@
             right: 70px;
             font-size: 1.3rem;
         }
+    }
+    html.no-transition,
+    html.no-transition * {
+      transition: none !important;
+    }
+    body.theme-loaded {
+      visibility: visible;
+    }
+    html.no-transition,
+    html.no-transition * {
+      transition: none !important;
+    }
+
+    body.lang-not-loaded {
+      visibility: hidden;
+    }
+
+    body.lang-loaded {
+      visibility: visible;
     }
 </style>

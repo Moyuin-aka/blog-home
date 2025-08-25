@@ -14,14 +14,66 @@ const { title } = Astro.props;
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title>{title}</title>
     <script>
-      //- Fix dark mode flashing
+      //- Fix dark mode flashing (initial load)
       (function() {
         try {
           var mode = localStorage.getItem('theme-mode');
           var isDark = mode === 'dark' || (!mode && window.matchMedia('(prefers-color-scheme: dark)').matches);
+
+          // Temporarily disable transitions
+          document.documentElement.classList.add('no-transition');
+
           if (isDark) {
             document.documentElement.classList.add('dark');
           }
+
+          // Force a reflow to apply the class immediately
+          document.documentElement.offsetHeight;
+
+          // Re-enable transitions after a short delay (or immediately)
+          setTimeout(function() {
+            document.documentElement.classList.remove('no-transition');
+            document.body.classList.add('theme-loaded'); // Add this line for initial load
+          }, 0);
+
+        } catch (e) {}
+      })();
+
+      // Function to handle theme and language loaded states
+      function handleThemeLoaded() {
+        document.body.classList.add('theme-loaded');
+        document.body.classList.add('lang-loaded'); // Add this line
+      }
+
+      // Listen for initial DOM load
+      document.addEventListener('DOMContentLoaded', handleThemeLoaded);
+
+      // Apply no-transition before swap
+      document.addEventListener('astro:before-swap', () => {
+        document.documentElement.classList.add('no-transition');
+      });
+
+      // After swap, apply theme-loaded and remove no-transition
+      document.addEventListener('astro:after-swap', () => {
+        handleThemeLoaded(); // Add theme-loaded class
+        document.documentElement.classList.remove('no-transition'); // Remove no-transition after swap
+      });
+    </script>
+    <script>
+      //- Fix i18n language flashing
+      (function() {
+        try {
+          var lang = localStorage.getItem('i18nextLng'); // Common i18next localStorage key
+          if (!lang) {
+            // Fallback to browser language detection if not in localStorage
+            lang = navigator.language;
+          }
+          // Use 'zh' for Chinese, 'en' for English, or default to 'en'
+          lang = lang.startsWith('zh') ? 'zh-CN' : 'en'; // Adjust based on your locale files
+
+          document.documentElement.lang = lang;
+          document.body.classList.remove('lang-not-loaded');
+          document.body.classList.add('lang-loaded');
         } catch (e) {}
       })();
     </script>
@@ -40,7 +92,7 @@ const { title } = Astro.props;
     <GlobalStyles />
     <ViewTransitions />
 </head>
-<body>
+<body class="lang-not-loaded">
     <slot />
     <script>
         import i18next from 'i18next';
